@@ -6,3 +6,23 @@ plugins {
     alias libs.plugins.version.catalog.update
     alias libs.plugins.ben.manes.versions
 }
+
+// Variable para pillar versiones estables
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+// Tarea para setear estas versiones estables al actualizar dependencias
+tasks.named("dependencyUpdates").configure {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)) {
+                    reject('Release candidate')
+                }
+            }
+        }
+    }
+}

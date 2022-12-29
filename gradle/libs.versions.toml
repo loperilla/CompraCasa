@@ -1,33 +1,30 @@
 [versions]
-androidx-annotation = "1.3.0"
 androidx-appcompat = "1.5.1"
-androidx-arch-core = "2.1.0"
-androidx-constraintlayout = "2.0.1"
 androidx-core = "1.9.0"
-androidx-emoji2 = "1.2.0"
-androidx-vectordrawable = "1.1.0"
-org-jetbrains-kotlin = "1.7.20"
-org-jetbrains-kotlinx = "1.6.1"
-sdk_minimun = "26"
-sdk_compile = "33"
+navigation = "2.5.3"
+constraint-layout = "2.1.4"
 
 [libraries]
-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 android-material = "com.google.android.material:material:1.7.0"
-junit = "junit:junit:4.13.2"
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.0"
 androidx-test-junit = "androidx.test.ext:junit:1.1.4"
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation"}
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation"}
+junit = "junit:junit:4.13.2"
+constraint = {module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint-layout"}
 
 [bundles]
 firebase = []
-navigation = []
+navigation = [
+    "navigation-iu", "navigation-fragment"
+]
 retrofit = []
-
 
 [plugins]
 application = "com.android.application:7.3.1"
+ben-manes-versions = "com.github.ben-manes.versions:0.44.0"
+kotlin-android = "org.jetbrains.kotlin.android:1.8.0"
 library = "com.android.library:7.3.1"
-ben-manes-versions = "com.github.ben-manes.versions:0.41.0"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.7.0"
-kotlin-android = "org.jetbrains.kotlin.android:1.7.20"
