@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85922248251",
+    "project_id": "compracasa-8bbc4",
+    "storage_bucket": "compracasa-8bbc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85922248251:android:37e036e6216ef250d34e1e",
+        "android_client_info": {
+          "package_name": "com.loperilla.compracasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85922248251-5o1ljpbaufq9ngiis38d2vui0k48gr8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwZ4p5NSWRIg7ZnN6F1nzl88KT70AAE54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85922248251-5o1ljpbaufq9ngiis38d2vui0k48gr8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -43,8 +45,13 @@ dependencies {
     implementation libs.appcompat
     implementation libs.android.material
     implementation libs.bundles.navigation
+    implementation libs.bundles.firebase
     implementation libs.constraint
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.espresso.core
     androidTestImplementation libs.androidx.test.junit
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics'
 }
