@@ -1,7 +1,7 @@
 package com.loperilla.compracasa.ui.auth.data
 
 import com.loperilla.compracasa.data.Result
-import com.loperilla.compracasa.ui.auth.data.model.LoggedInUser
+import com.loperilla.compracasa.data.model.LoggedInUser
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -25,7 +25,7 @@ class LoginRepository(private val dataSource: LoginDataSource) {
 
     fun logout() {
         user = null
-        dataSource.logout()
+        dataSource.doLogout()
     }
 
     fun doLogin(username: String, password: String): Result<LoggedInUser> {

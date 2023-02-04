@@ -1,4 +1,4 @@
-package com.loperilla.compracasa
+package com.loperilla.compracasa.ui.auth.register
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.loperilla.compracasa.R
 
 class SignInFragment : Fragment() {
 
@@ -24,7 +25,7 @@ class SignInFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SignInViewModel::class.java)
+        viewModel = ViewModelProvider(this)[SignInViewModel::class.java]
         // TODO: Use the ViewModel
     }
 

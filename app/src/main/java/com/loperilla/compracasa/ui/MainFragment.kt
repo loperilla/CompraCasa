@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DatabaseReference
-import com.loperilla.compracasa.R
 import com.loperilla.compracasa.databinding.FragmentFirstBinding
 import com.loperilla.compracasa.firebase.Auth.checkIfIsUserLogged
-import com.loperilla.compracasa.firebase.Database.setValueInReference
 
 class MainFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
@@ -29,8 +27,9 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            setValueInReference(testReference, "test")
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(
+                MainFragmentDirections.actionFirstFragmentToLoginFragment()
+            )
         }
 //        testReference.addValueEventListener(
 //            object : ValueEventListener {

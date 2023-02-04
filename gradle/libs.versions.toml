@@ -1,43 +1,43 @@
 [versions]
-androidx-appcompat = "1.5.1"
+androidx-appcompat = "1.6.0"
 androidx-core = "1.9.0"
-navigation = "2.5.3"
 constraint-layout = "2.1.4"
-multidex-version = "2.0.1"
 lifecycle-version = "2.5.1"
+multidex-version = "2.0.1"
+navigation = "2.5.3"
 
 [libraries]
-android-material = "com.google.android.material:material:1.7.0"
-annotations = "androidx.annotation:annotation:1.3.0"
-androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.0"
-androidx-test-junit = "androidx.test.ext:junit:1.1.4"
+android-material = "com.google.android.material:material:1.8.0"
+androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.1"
+androidx-test-junit = "androidx.test.ext:junit:1.1.5"
+annotations = "androidx.annotation:annotation:1.5.0"
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
-navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-junit = "junit:junit:4.13.2"
 constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint-layout" }
-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex-version" }
-safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.0"
-lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+junit = "junit:junit:4.13.2"
 lifecycle-ld = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-version" }
+lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
+multidex = { module = "androidx.multidex:multidex", version.ref = "multidex-version" }
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.1"
 
 [bundles]
 firebase = [
-    "safetynet"
+    "safetynet",
 ]
-
-navigation = [
-    "navigation-iu", "navigation-fragment"
-]
-retrofit = []
 lifecycle = [
-    "lifecycle-vm", "lifecycle-ld"
+    "lifecycle-ld",
+    "lifecycle-vm",
+]
+navigation = [
+    "navigation-fragment",
+    "navigation-iu",
 ]
 
 [plugins]
-application = "com.android.application:7.3.1"
-ben-manes-versions = "com.github.ben-manes.versions:0.44.0"
-kotlin-android = "org.jetbrains.kotlin.android:1.8.0"
-library = "com.android.library:7.3.1"
+application = "com.android.application:7.4.1"
+ben-manes-versions = "com.github.ben-manes.versions:0.45.0"
+kotlin-android = "org.jetbrains.kotlin.android:1.8.10"
+library = "com.android.library:7.4.1"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.7.0"

@@ -1,4 +1,4 @@
-package com.loperilla.compracasa
+package com.loperilla.compracasa.ui.auth.register
 
 import androidx.lifecycle.ViewModel
 

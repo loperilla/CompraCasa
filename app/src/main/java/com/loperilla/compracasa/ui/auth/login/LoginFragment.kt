@@ -10,16 +10,17 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.R
 import com.loperilla.compracasa.databinding.FragmentLoginBinding
+import com.loperilla.compracasa.ui.auth.data.LoginViewModelFactory
 
 class LoginFragment : Fragment() {
 
-    private val loginViewModel by activityViewModels<LoginViewModel>()
     private var _binding: FragmentLoginBinding? = null
+    private lateinit var loginViewModel: LoginViewModel
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,15 +30,17 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loginViewModel = ViewModelProvider(
+            this,
+            LoginViewModelFactory()
+        )[LoginViewModel::class.java]
         val usernameEditText = binding.etLoginUsername
         val passwordEditText = binding.etLoginPassword
         val loginButton = binding.btnLogin
@@ -91,7 +94,7 @@ class LoginFragment : Fragment() {
         passwordEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.login(
+                loginViewModel.doLoginApiCall(
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
@@ -101,7 +104,7 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(
+            loginViewModel.doLoginApiCall(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )
