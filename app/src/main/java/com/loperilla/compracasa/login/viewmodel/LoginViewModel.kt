@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.ui.login
+package com.loperilla.compracasa.login.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -6,7 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.loperilla.compracasa.R
 import com.loperilla.compracasa.data.Result
-import com.loperilla.compracasa.ui.auth.data.LoginRepository
+import com.loperilla.compracasa.login.data.LoggedInUserView
+import com.loperilla.compracasa.login.data.LoginFormState
+import com.loperilla.compracasa.login.data.LoginResult
+import com.loperilla.compracasa.login.repository.LoginRepository
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -41,12 +44,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     // A placeholder username validation check
-    private fun isUserNameValid(username: String): Boolean {
-        return if (username.contains("@")) {
-            Patterns.EMAIL_ADDRESS.matcher(username).matches()
-        } else {
-            username.isNotBlank()
-        }
+    private fun isUserNameValid(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     // A placeholder password validation check

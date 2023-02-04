@@ -18,27 +18,39 @@ object Auth {
     }
 
     fun doFirebaseLogin(username: String, password: String): Result<LoggedInUser> {
-        auth?.signInWithEmailAndPassword(username, password)
-            ?.addOnCompleteListener({ }) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    this.currentAuthUser = auth?.currentUser
-                } else {
-                    Log.e(TAG, "${task.exception}")
-                }
+        checkAuthInstance()
+        auth!!.signInWithEmailAndPassword(username, password)
+            .addOnCompleteListener({ }) { task ->
+                Log.e(TAG, "${task.result}")
+                this.currentAuthUser = auth?.currentUser
             }
-        return if (this.currentAuthUser == null) {
+        return if (auth?.currentUser == null) {
             Result.Error(IOException("Error loginIn", Exception()))
         } else {
             Result.Success(
                 LoggedInUser(
-                    this.currentAuthUser?.uid!!,
-                    this.currentAuthUser!!.displayName ?: ""
+                    auth?.currentUser?.uid!!,
+                    auth?.currentUser?.email!!
                 )
             )
         }
     }
 
+    private fun checkAuthInstance() {
+        if (auth == null) {
+            auth = Firebase.auth
+        }
+    }
+
+    fun doFirebaseRegister(email: String, password: String): Result<LoggedInUser> {
+        checkAuthInstance()
+        auth!!.createUserWithEmailAndPassword(email, password).addOnCompleteListener({ }) { task ->
+            if (task.isSuccessful) {
+                Log.e(TAG, "${task.result}")
+            }
+        }
+        return doFirebaseLogin(email, password)
+    }
 
     fun doFirebaseLogout() {
         if (auth != null && currentAuthUser != null) {

@@ -1,7 +1,8 @@
-package com.loperilla.compracasa.ui.auth.data
+package com.loperilla.compracasa.login.repository
 
 import com.loperilla.compracasa.data.Result
 import com.loperilla.compracasa.data.model.LoggedInUser
+import com.loperilla.compracasa.login.datasource.LoginDataSource
 
 /**
  * Class that requests authentication and user information from the remote data source and

@@ -1,8 +1,9 @@
-package com.loperilla.compracasa.ui.auth.data
+package com.loperilla.compracasa.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.loperilla.compracasa.ui.auth.ui.login.LoginViewModel
+import com.loperilla.compracasa.login.datasource.LoginDataSource
+import com.loperilla.compracasa.login.repository.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

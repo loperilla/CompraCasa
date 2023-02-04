@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.ui.login
+package com.loperilla.compracasa.login.data
 
 /**
  * Data validation state of the login form.

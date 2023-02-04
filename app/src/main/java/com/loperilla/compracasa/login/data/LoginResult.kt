@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.ui.login
+package com.loperilla.compracasa.login.data
 
 /**
  * Authentication result : success (user details) or error message.

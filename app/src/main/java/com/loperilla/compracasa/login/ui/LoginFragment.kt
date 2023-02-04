@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.ui.login
+package com.loperilla.compracasa.login.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.loperilla.compracasa.R
 import com.loperilla.compracasa.databinding.FragmentLoginBinding
-import com.loperilla.compracasa.ui.auth.data.LoginViewModelFactory
+import com.loperilla.compracasa.login.data.LoggedInUserView
+import com.loperilla.compracasa.login.viewmodel.LoginViewModel
+import com.loperilla.compracasa.login.viewmodel.LoginViewModelFactory
 
 class LoginFragment : Fragment() {
 
@@ -112,16 +113,15 @@ class LoginFragment : Fragment() {
 
         registerButton.setOnClickListener {
             findNavController().navigate(
-                LoginFragmentDirections.actionLoginFragmentToSignInFragment()
+                LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             )
         }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome) + model.displayName
-        // TODO : initiate successful logged in experience
-        val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        findNavController().navigate(
+            LoginFragmentDirections.actionLoginFragmentToHomeFragment(model.displayName)
+        )
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

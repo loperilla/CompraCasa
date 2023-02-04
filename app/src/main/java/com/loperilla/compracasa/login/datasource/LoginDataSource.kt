@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.data
+package com.loperilla.compracasa.login.datasource
 
 import com.loperilla.compracasa.data.Result
 import com.loperilla.compracasa.data.model.LoggedInUser

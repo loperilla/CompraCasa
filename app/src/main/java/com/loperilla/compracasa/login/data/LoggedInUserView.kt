@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.ui.auth.ui.login
+package com.loperilla.compracasa.login.data
 
 /**
  * User details post authentication that is exposed to the UI
