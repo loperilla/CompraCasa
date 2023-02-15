@@ -21,18 +21,20 @@ multidex = { module = "androidx.multidex:multidex", version.ref = "multidex-vers
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.1"
+gms = 'com.google.android.gms:play-services-games:23.1.0'
+database-ui = 'com.firebaseui:firebase-ui-database:8.0.2'
 
 [bundles]
 firebase = [
-    "safetynet",
+    "safetynet", "gms", "database-ui"
 ]
 lifecycle = [
     "lifecycle-ld",
-    "lifecycle-vm",
+    "lifecycle-vm"
 ]
 navigation = [
     "navigation-fragment",
-    "navigation-iu",
+    "navigation-iu"
 ]
 
 [plugins]

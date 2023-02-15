@@ -11,40 +11,33 @@ import java.io.IOException
 
 object Auth {
     private val TAG = Auth::class.java.simpleName
-    private var auth: FirebaseAuth? = Firebase.auth
+    private val auth: FirebaseAuth
+        get() = Firebase.auth
+
     private var currentAuthUser: FirebaseUser? = null
-    fun checkIfIsUserLogged(): Boolean {
-        return auth != null
-    }
+    val UID: String?
+        get() = auth.uid
 
     fun doFirebaseLogin(username: String, password: String): Result<LoggedInUser> {
-        checkAuthInstance()
-        auth!!.signInWithEmailAndPassword(username, password)
+        auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener({ }) { task ->
                 Log.e(TAG, "${task.result}")
-                this.currentAuthUser = auth?.currentUser
+                this.currentAuthUser = auth.currentUser
             }
-        return if (auth?.currentUser == null) {
+        return if (auth.currentUser == null) {
             Result.Error(IOException("Error loginIn", Exception()))
         } else {
             Result.Success(
                 LoggedInUser(
-                    auth?.currentUser?.uid!!,
-                    auth?.currentUser?.email!!
+                    auth.currentUser?.uid!!,
+                    auth.currentUser?.email!!
                 )
             )
         }
     }
 
-    private fun checkAuthInstance() {
-        if (auth == null) {
-            auth = Firebase.auth
-        }
-    }
-
     fun doFirebaseRegister(email: String, password: String): Result<LoggedInUser> {
-        checkAuthInstance()
-        auth!!.createUserWithEmailAndPassword(email, password).addOnCompleteListener({ }) { task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener({ }) { task ->
             if (task.isSuccessful) {
                 Log.e(TAG, "${task.result}")
             }
@@ -53,8 +46,8 @@ object Auth {
     }
 
     fun doFirebaseLogout() {
-        if (auth != null && currentAuthUser != null) {
-            auth?.signOut()
+        if (currentAuthUser != null) {
+            auth.signOut()
         }
     }
 }
