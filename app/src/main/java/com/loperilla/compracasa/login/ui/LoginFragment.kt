@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.databinding.FragmentLoginBinding
@@ -48,31 +47,25 @@ class LoginFragment : Fragment() {
         val registerButton = binding.btnRegister
         val loadingProgressBar = binding.loading
 
-        loginViewModel.loginFormState.observe(viewLifecycleOwner,
-            Observer { loginFormState ->
-                if (loginFormState == null) {
-                    return@Observer
-                }
-                loginButton.isEnabled = loginFormState.isDataValid
-                loginFormState.usernameError?.let {
-                    usernameEditText.error = getString(it)
-                }
-                loginFormState.passwordError?.let {
-                    passwordEditText.error = getString(it)
-                }
-            })
+        loginViewModel.loginFormState.observe(viewLifecycleOwner) { loginFormState ->
+            loginButton.isEnabled = loginFormState.isDataValid
+            loginFormState.usernameError?.let {
+                usernameEditText.error = getString(it)
+            }
+            loginFormState.passwordError?.let {
+                passwordEditText.error = getString(it)
+            }
+        }
 
-        loginViewModel.loginResult.observe(viewLifecycleOwner,
-            Observer { loginResult ->
-                loginResult ?: return@Observer
-                loadingProgressBar.visibility = View.GONE
-                loginResult.error?.let {
-                    showLoginFailed(it)
-                }
-                loginResult.success?.let {
-                    updateUiWithUser(it)
-                }
-            })
+        loginViewModel.loginResult.observe(viewLifecycleOwner) { loginResult ->
+            loadingProgressBar.visibility = View.GONE
+            loginResult.error?.let {
+                showLoginFailed(it)
+            }
+            loginResult.success?.let {
+                updateUiWithUser(it)
+            }
+        }
 
 
         val afterTextChangedListener = object : TextWatcher {

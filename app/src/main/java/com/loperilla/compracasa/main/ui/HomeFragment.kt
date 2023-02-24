@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -56,6 +57,12 @@ class HomeFragment : Fragment() {
         viewModel.shoppingListItemLiveData.observe(viewLifecycleOwner) { optionList ->
             setUpRecyclerView(optionList)
         }
+
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToAddShoppingListFragment()
+            )
+        }
     }
 
     private fun showLoadingView() {
@@ -78,7 +85,6 @@ class HomeFragment : Fragment() {
         with(binding) {
             progressbar.isVisible = false
             rvList.isVisible = true
-
         }
     }
 

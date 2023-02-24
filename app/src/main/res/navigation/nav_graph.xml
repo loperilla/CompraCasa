@@ -35,5 +35,13 @@
         <argument
             android:name="displayName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_homeFragment_to_addShoppingListFragment"
+            app:destination="@id/addShoppingListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addShoppingListFragment"
+        android:name="com.loperilla.compracasa.shoppinglist.ui.AddShoppingListFragment"
+        android:label="fragment_add_shopping_list"
+        tools:layout="@layout/fragment_add_shopping_list" />
 </navigation>
