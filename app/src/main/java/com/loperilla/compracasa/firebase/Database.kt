@@ -4,9 +4,12 @@ import android.util.Log
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.loperilla.compracasa.data.OnResult
+import com.loperilla.compracasa.data.OnResult.Error
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.firebase.Auth.UID
 import com.loperilla.compracasa.shoppinglist.data.PostShoppingList
+import java.io.IOException
 
 object Database {
     private const val SHOPPING_LIST = "shoppingList"
@@ -17,7 +20,7 @@ object Database {
         get() = INSTANCE_DB.reference.child(SHOPPING_LIST).child(UID!!)
 
 
-    fun getAllShoppingList(onComplete: (List<ShoppingListItem>) -> Unit) {
+    fun getAllShoppingList(onComplete: (OnResult<*>) -> Unit) {
         var returnList = mutableListOf<ShoppingListItem>()
         SHOPPING_LIST_REFERENCE.child("items")
             .addListenerForSingleValueEvent(
@@ -30,11 +33,11 @@ object Database {
                                 returnList.add(shoppingListItem)
                             }
                         }
-                        onComplete(returnList)
+                        onComplete(OnResult.Success(returnList))
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-                        Log.e("ShoppingList", "Error: ${databaseError.message}")
+                        onComplete(Error<String>(exception = IOException(databaseError.message)))
                     }
                 }
             )

@@ -57,7 +57,9 @@ class HomeFragment : Fragment() {
         Log.e("Loading", "loading")
         with(binding) {
             progressbar.isVisible = true
+            progressbar.animate()
             rvList.isVisible = false
+            ivEmpty.isVisible = false
         }
     }
 
@@ -66,13 +68,15 @@ class HomeFragment : Fragment() {
         with(binding) {
             progressbar.isVisible = false
             rvList.isVisible = true
+            ivEmpty.isVisible = false
         }
     }
 
     private fun showErrorView() {
         with(binding) {
             progressbar.isVisible = false
-            rvList.isVisible = true
+            ivEmpty.isVisible = true
+            rvList.isVisible = false
         }
     }
 
