@@ -1,6 +1,6 @@
 package com.loperilla.compracasa.login.repository
 
-import com.loperilla.compracasa.data.Result
+import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.LoggedInUser
 import com.loperilla.compracasa.login.datasource.LoginDataSource
 
@@ -29,11 +29,11 @@ class LoginRepository(private val dataSource: LoginDataSource) {
         dataSource.doLogout()
     }
 
-    fun doLogin(username: String, password: String): Result<LoggedInUser> {
+    fun doLogin(username: String, password: String): OnResult<LoggedInUser> {
         // handle login
         val result = dataSource.doLogin(username, password)
 
-        if (result is Result.Success) {
+        if (result is OnResult.Success) {
             setLoggedInUser(result.data)
         }
 

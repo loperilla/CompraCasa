@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.loperilla.compracasa.R
-import com.loperilla.compracasa.data.Result
+import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.login.data.LoggedInUserView
 import com.loperilla.compracasa.login.data.LoginFormState
 import com.loperilla.compracasa.login.data.LoginResult
@@ -23,7 +23,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         // can be launched in a separate asynchronous job
         val result = loginRepository.doLogin(username, password)
 
-        if (result is Result.Success) {
+        if (result is OnResult.Success) {
             _loginResult.value =
                 LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
         } else {

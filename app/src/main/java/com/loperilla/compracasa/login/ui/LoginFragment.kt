@@ -41,6 +41,10 @@ class LoginFragment : Fragment() {
             this,
             LoginViewModelFactory()
         )[LoginViewModel::class.java]
+
+        loginViewModel.doLoginApiCall(
+            "aa@gmail.com", "12345678"
+        )
         val usernameEditText = binding.etLoginUsername
         val passwordEditText = binding.etLoginPassword
         val loginButton = binding.btnLogin

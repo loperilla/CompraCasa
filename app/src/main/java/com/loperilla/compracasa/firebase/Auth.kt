@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.loperilla.compracasa.data.Result
+import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.LoggedInUser
 import java.io.IOException
 
@@ -18,16 +18,16 @@ object Auth {
     val UID: String?
         get() = auth.uid
 
-    fun doFirebaseLogin(username: String, password: String): Result<LoggedInUser> {
+    fun doFirebaseLogin(username: String, password: String): OnResult<LoggedInUser> {
         auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener({ }) { task ->
                 Log.e(TAG, "${task.result}")
                 this.currentAuthUser = auth.currentUser
             }
         return if (auth.currentUser == null) {
-            Result.Error(IOException("Error loginIn", Exception()))
+            OnResult.Error<Any>(IOException("Error loginIn", Exception()))
         } else {
-            Result.Success(
+            OnResult.Success(
                 LoggedInUser(
                     auth.currentUser?.uid!!,
                     auth.currentUser?.email!!
@@ -36,7 +36,7 @@ object Auth {
         }
     }
 
-    fun doFirebaseRegister(email: String, password: String): Result<LoggedInUser> {
+    fun doFirebaseRegister(email: String, password: String): OnResult<LoggedInUser> {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener({ }) { task ->
             if (task.isSuccessful) {
                 Log.e(TAG, "${task.result}")

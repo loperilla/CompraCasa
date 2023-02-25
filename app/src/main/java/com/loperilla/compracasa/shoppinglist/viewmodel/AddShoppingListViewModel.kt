@@ -3,7 +3,7 @@ package com.loperilla.compracasa.shoppinglist.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.loperilla.compracasa.data.Result
+import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.shoppinglist.data.InputsState
 import com.loperilla.compracasa.shoppinglist.data.PostShoppingList
@@ -28,9 +28,9 @@ class AddShoppingListViewModel(val repository: AddShoppingRepository) : ViewMode
     }
 
     fun addShoppingList(shoppingListItem: ShoppingListItem) {
-        val postResult: Result<PostShoppingList> = repository.addShoppingList(shoppingListItem)
+        val postOnResult: OnResult<PostShoppingList> = repository.addShoppingList(shoppingListItem)
 
-        _postState.value = if (postResult is Result.Success) {
+        _postState.value = if (postOnResult is OnResult.Success) {
             PostState.SUCCESS
         } else {
             PostState.FAIL

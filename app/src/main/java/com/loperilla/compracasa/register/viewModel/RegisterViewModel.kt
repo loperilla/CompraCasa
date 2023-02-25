@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.loperilla.compracasa.R
-import com.loperilla.compracasa.data.Result
+import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.login.data.LoggedInUserView
 import com.loperilla.compracasa.register.model.RegisterFormState
 import com.loperilla.compracasa.register.model.RegisterResult
@@ -33,7 +33,7 @@ class RegisterViewModel(private val repository: RegisterRepository) : ViewModel(
     fun doRegister(email: String, password: String) {
         val result = repository.doRegister(email, password)
 
-        if (result is Result.Success) {
+        if (result is OnResult.Success) {
             _registerResult.value =
                 RegisterResult(success = LoggedInUserView(displayName = result.data.displayName))
         } else {

@@ -1,9 +1,7 @@
 package com.loperilla.compracasa.firebase
 
 import android.util.Log
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.loperilla.compracasa.data.model.ShoppingListItem
@@ -19,18 +17,33 @@ object Database {
         get() = INSTANCE_DB.reference.child(SHOPPING_LIST).child(UID!!)
 
 
-    fun getAllShoppingList(): FirebaseRecyclerOptions<ShoppingListItem>? {
-        val options =
-            FirebaseRecyclerOptions.Builder<ShoppingListItem>()
-                .setQuery(SHOPPING_LIST_REFERENCE, ShoppingListItem::class.java)
-                .build()
-        Log.e("Database", "${options.snapshots}")
-        return options
+    fun getAllShoppingList(onComplete: (List<ShoppingListItem>) -> Unit) {
+        var returnList = mutableListOf<ShoppingListItem>()
+        SHOPPING_LIST_REFERENCE.child("items")
+            .addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (childSnapshot in dataSnapshot.children) {
+                            val shoppingListItem =
+                                childSnapshot.getValue(ShoppingListItem::class.java)
+                            if (shoppingListItem != null) {
+                                returnList.add(shoppingListItem)
+                            }
+                        }
+                        onComplete(returnList)
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.e("ShoppingList", "Error: ${databaseError.message}")
+                    }
+                }
+            )
     }
 
     fun addShoppingList(shoppingListItem: ShoppingListItem): PostShoppingList {
         var bbDDError = ""
-        SHOPPING_LIST_REFERENCE.setValue(
+        val pushKey = SHOPPING_LIST_REFERENCE.child("items").push().key
+        SHOPPING_LIST_REFERENCE.child("items").child(pushKey!!).setValue(
             shoppingListItem
         ) { error, ref ->
             if (error != null) {
