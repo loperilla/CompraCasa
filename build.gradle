@@ -11,7 +11,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.15'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.4'
         classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
     }
 }
 
@@ -21,6 +21,7 @@ plugins {
     alias libs.plugins.kotlin.android apply false
     alias libs.plugins.version.catalog.update
     alias libs.plugins.ben.manes.versions
+    id 'com.android.dynamic-feature' version '7.4.1' apply false
 }
 
 // Variable para pillar versiones estables

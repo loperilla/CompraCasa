@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CompraCasa"
 include ':app'
+include ':login'
+include ':data'
+include ':register'
+include ':home'
+include ':createShoppingList'

@@ -9,7 +9,7 @@ plugins {
 android {
     compileSdk = 33
     namespace = "com.loperilla.compracasa"
-
+    buildToolsVersion = "33.0.0"
     defaultConfig {
         applicationId = "com.loperilla.compracasa"
         minSdk = 26
@@ -21,10 +21,10 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
 
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -42,6 +42,7 @@ android {
     viewBinding {
         enable = true
     }
+    dynamicFeatures += setOf(":login", ":register", ":home", ":createShoppingList")
 }
 
 dependencies {
@@ -49,7 +50,6 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.android.material)
     implementation(libs.bundles.navigation)
-    implementation(libs.bundles.firebase)
     implementation(libs.constraint)
     implementation(libs.multidex)
     implementation(libs.annotations)
@@ -57,9 +57,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.junit)
-    implementation(platform("com.google.firebase:firebase-bom:31.2.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-database-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx")
 }

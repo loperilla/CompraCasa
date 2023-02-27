@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.loperilla.compracasa.register.ui.RegisterFragment"
+        android:name="com.loperilla.register.ui.RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_pop_including_loginFragment"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.loperilla.compracasa.main.ui.HomeFragment"
+        android:name="com.loperilla.home.ui.HomeFragment"
         tools:layout="@layout/fragment_home">
         <argument
             android:name="displayName"
