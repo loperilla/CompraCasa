@@ -17,9 +17,9 @@ core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 database-ui = "com.firebaseui:firebase-ui-database:8.0.2"
 gms = "com.google.android.gms:play-services-games:23.1.0"
 junit = "junit:junit:4.13.2"
-lifecycle-ld = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-version" }
 lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
 multidex = { module = "androidx.multidex:multidex", version.ref = "multidex-version" }
+navigation-dynamic-feature-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigation" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.1"
@@ -31,17 +31,17 @@ firebase = [
     "safetynet",
 ]
 lifecycle = [
-    "lifecycle-ld",
     "lifecycle-vm",
 ]
 navigation = [
+    "navigation-dynamic-feature-fragment",
     "navigation-fragment",
     "navigation-iu",
 ]
 
 [plugins]
-application = "com.android.application:7.4.1"
+application = "com.android.application:7.4.2"
 ben-manes-versions = "com.github.ben-manes.versions:0.46.0"
 kotlin-android = "org.jetbrains.kotlin.android:1.8.10"
-library = "com.android.library:7.4.1"
+library = "com.android.library:7.4.2"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.7.0"

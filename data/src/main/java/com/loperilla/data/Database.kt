@@ -1,13 +1,13 @@
 package com.loperilla.data
 
-import android.util.Log
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.loperilla.compracasa.data.OnResult
-import com.loperilla.compracasa.data.model.ShoppingListItem
-import com.loperilla.compracasa.shoppinglist.data.PostShoppingList
 import com.loperilla.data.Auth.UID
+import com.loperilla.data.model.OnResult
+import com.loperilla.data.model.OnResult.Error
+import com.loperilla.data.model.OnResult.Success
+import com.loperilla.data.model.ShoppingListItem
 import java.io.IOException
 
 object Database {
@@ -32,7 +32,7 @@ object Database {
                                 returnList.add(shoppingListItem)
                             }
                         }
-                        onComplete(OnResult.Success(returnList))
+                        onComplete(Success(returnList))
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -42,22 +42,22 @@ object Database {
             )
     }
 
-    fun addShoppingList(shoppingListItem: ShoppingListItem): PostShoppingList {
-        var bbDDError = ""
-        val pushKey = SHOPPING_LIST_REFERENCE.child("items").push().key
-        SHOPPING_LIST_REFERENCE.child("items").child(pushKey!!).setValue(
-            shoppingListItem
-        ) { error, ref ->
-            if (error != null) {
-                bbDDError = error.message
-                Log.e("Database", "$error")
-            }
-        }
-
-        return if (bbDDError.isEmpty()) {
-            PostShoppingList(isSuccess = true)
-        } else {
-            PostShoppingList(errorMessage = bbDDError)
-        }
-    }
+//    fun addShoppingList(shoppingListItem: ShoppingListItem): PostShoppingList {
+//        var bbDDError = ""
+//        val pushKey = SHOPPING_LIST_REFERENCE.child("items").push().key
+//        SHOPPING_LIST_REFERENCE.child("items").child(pushKey!!).setValue(
+//            shoppingListItem
+//        ) { error, ref ->
+//            if (error != null) {
+//                bbDDError = error.message
+//                Log.e("Database", "$error")
+//            }
+//        }
+//
+//        return if (bbDDError.isEmpty()) {
+//            PostShoppingList(isSuccess = true)
+//        } else {
+//            PostShoppingList(errorMessage = bbDDError)
+//        }
+//    }
 }

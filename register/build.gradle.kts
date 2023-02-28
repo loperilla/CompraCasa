@@ -1,6 +1,6 @@
 plugins {
     id("com.android.dynamic-feature")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
 }
 android {
     namespace = "com.loperilla.register"
@@ -24,9 +24,7 @@ android {
 
 dependencies {
     implementation(project(":app"))
-    implementation(project(":data"))
     implementation(libs.core.ktx)
-    testImplementation(libs.junit)
     implementation(libs.appcompat)
     implementation(libs.android.material)
     implementation(libs.bundles.navigation)

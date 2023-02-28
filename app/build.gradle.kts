@@ -32,10 +32,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -46,14 +42,15 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.android.material)
     implementation(libs.bundles.navigation)
+    implementation(libs.bundles.firebase)
     implementation(libs.constraint)
     implementation(libs.multidex)
     implementation(libs.annotations)
-    implementation(libs.bundles.lifecycle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.androidx.test.junit)

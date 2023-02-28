@@ -1,7 +1,6 @@
 plugins {
     id("com.android.dynamic-feature")
     kotlin("android")
-    id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
 }
 android {
@@ -22,11 +21,16 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation(project(":app"))
-    implementation(project(":data"))
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     implementation(libs.appcompat)

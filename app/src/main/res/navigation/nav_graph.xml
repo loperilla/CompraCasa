@@ -4,44 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
-    <fragment
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/registerFragment"-->
+    <!--        android:name="com.loperilla.ui.RegisterFragment"-->
+    <!--        tools:layout="@layout/fragment_register">-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_registerFragment_pop_including_loginFragment"-->
+    <!--            app:launchSingleTop="true"-->
+    <!--            app:popUpTo="@id/loginFragment"-->
+    <!--            app:popUpToInclusive="true" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_registerFragment_to_homeFragment"-->
+    <!--            app:destination="@id/homeFragment" />-->
+    <!--    </fragment>-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/homeFragment"-->
+    <!--        android:name="com.loperilla.home.ui.HomeFragment"-->
+    <!--        tools:layout="@layout/fragment_home">-->
+    <!--        <argument-->
+    <!--            android:name="displayName"-->
+    <!--            app:argType="string" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_homeFragment_to_addShoppingListFragment"-->
+    <!--            app:destination="@id/addShoppingListFragment" />-->
+    <!--    </fragment>-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/addShoppingListFragment"-->
+    <!--        android:name="com.loperilla.createShoppingList.ui.AddShoppingListFragment"-->
+    <!--        android:label="fragment_add_shopping_list"-->
+    <!--        tools:layout="@layout/fragment_add_shopping_list" />-->
+
+    <include-dynamic
         android:id="@+id/loginFragment"
-        android:name="com.loperilla.compracasa.login.ui.LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.loperilla.register.ui.RegisterFragment"
-        tools:layout="@layout/fragment_register">
-        <action
-            android:id="@+id/action_registerFragment_pop_including_loginFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_registerFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.loperilla.home.ui.HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <argument
-            android:name="displayName"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_homeFragment_to_addShoppingListFragment"
-            app:destination="@id/addShoppingListFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addShoppingListFragment"
-        android:name="com.loperilla.compracasa.shoppinglist.ui.AddShoppingListFragment"
-        android:label="fragment_add_shopping_list"
-        tools:layout="@layout/fragment_add_shopping_list" />
+        android:name="com.loperilla.login.ui.LoginFragment"
+        app:moduleName="login"
+        tools:layout="@layout/fragment_login" />
+
+    <!--    <include-dynamic-->
+    <!--        android:id="@+id/feature2_fragment"-->
+    <!--        app:moduleName="module_feature2"-->
+    <!--        app:graphPackage="com.example.module_feature2.navigation"-->
+    <!--        app:graphResName="feature2_nav_graph" />-->
 </navigation>

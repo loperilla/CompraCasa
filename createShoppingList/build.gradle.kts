@@ -1,6 +1,6 @@
 plugins {
     id("com.android.dynamic-feature")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
 }
 android {
     namespace = "com.loperilla.createshoppinglist"
@@ -20,11 +20,13 @@ android {
             )
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation(project(":app"))
-    implementation(project(":data"))
     implementation(libs.core.ktx)
     testImplementation(libs.junit)
     implementation(libs.appcompat)
