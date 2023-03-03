@@ -14,15 +14,19 @@ annotations = "androidx.annotation:annotation:1.6.0"
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 constraint = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraint-layout" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+crashlytics-gradle = "com.google.firebase:firebase-crashlytics-gradle:2.9.4"
 database-ui = "com.firebaseui:firebase-ui-database:8.0.2"
 gms = "com.google.android.gms:play-services-games:23.1.0"
+google-services = "com.google.gms:google-services:4.3.15"
 junit = "junit:junit:4.13.2"
+kotlin-gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
 lifecycle-ld = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-version" }
 lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
 multidex = { module = "androidx.multidex:multidex", version.ref = "multidex-version" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
-safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.1"
+safe-args-gradle = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
+safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.2"
 
 [bundles]
 firebase = [
@@ -40,8 +44,8 @@ navigation = [
 ]
 
 [plugins]
-application = "com.android.application:7.4.1"
+application = "com.android.application:7.4.2"
 ben-manes-versions = "com.github.ben-manes.versions:0.46.0"
 kotlin-android = "org.jetbrains.kotlin.android:1.8.10"
-library = "com.android.library:7.4.1"
+library = "com.android.library:7.4.2"
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.7.0"
