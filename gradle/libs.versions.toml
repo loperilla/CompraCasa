@@ -19,6 +19,8 @@ database-ui = "com.firebaseui:firebase-ui-database:8.0.2"
 gms = "com.google.android.gms:play-services-games:23.1.0"
 google-services = "com.google.gms:google-services:4.3.15"
 junit = "junit:junit:4.13.2"
+datastore = "androidx.datastore:datastore-preferences:1.0.0"
+koin = "io.insert-koin:koin-android:3.3.3"
 kotlin-gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
 lifecycle-ld = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-version" }
 lifecycle-vm = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }

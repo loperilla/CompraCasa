@@ -2,7 +2,6 @@ package com.loperilla.compracasa.shoppinglist.datasource
 
 import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.ShoppingListItem
-import com.loperilla.compracasa.firebase.Database
 import com.loperilla.compracasa.shoppinglist.data.PostShoppingList
 import java.io.IOException
 

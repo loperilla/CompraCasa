@@ -2,8 +2,8 @@ package com.loperilla.compracasa.login.datasource
 
 import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.LoggedInUser
-import com.loperilla.compracasa.firebase.Auth.doFirebaseLogin
-import com.loperilla.compracasa.firebase.Auth.doFirebaseLogout
+import com.loperilla.compracasa.firebase.MyFirebaseAuth.doFirebaseLogin
+import com.loperilla.compracasa.firebase.MyFirebaseAuth.doFirebaseLogout
 import java.io.IOException
 
 /**

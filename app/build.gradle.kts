@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.constraint)
     implementation(libs.multidex)
     implementation(libs.annotations)
+    implementation(libs.koin)
+    implementation(libs.datastore)
     implementation(libs.bundles.lifecycle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
