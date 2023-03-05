@@ -1,3 +1,9 @@
 package com.loperilla.compracasa.main.useCase
 
-class GetShoppingListUseCase
+import com.loperilla.compracasa.main.repository.HomeRepository
+
+class GetShoppingListUseCase(
+    private val repository: HomeRepository
+) {
+    suspend operator fun invoke() = repository.getUserShoppingList()
+}

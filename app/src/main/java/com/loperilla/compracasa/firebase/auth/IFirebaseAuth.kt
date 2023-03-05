@@ -4,7 +4,7 @@ import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.DataRegistration
 
 interface IFirebaseAuth {
-    fun doTokenLoginFirebase(): OnResult<String>
-    fun doFirebaseLogin(email: String, password: String): OnResult<String>
-    fun doFirebaseRegister(dataRegistration: DataRegistration): OnResult<String>
+    suspend fun doTokenLoginFirebase(): OnResult<String>
+    suspend fun doFirebaseLogin(email: String, password: String): OnResult<String>
+    suspend fun doFirebaseRegister(dataRegistration: DataRegistration): OnResult<String>
 }

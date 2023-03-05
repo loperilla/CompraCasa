@@ -8,7 +8,7 @@ import com.loperilla.compracasa.firebase.auth.IFirebaseAuth
  */
 class LoginDataSource(private val firebaseAuth: IFirebaseAuth) {
 
-    fun doLogin(username: String, password: String): OnResult<String> {
+    suspend fun doLogin(username: String, password: String): OnResult<String> {
         return firebaseAuth.doFirebaseLogin(username, password)
     }
 

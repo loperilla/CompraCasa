@@ -5,9 +5,9 @@ import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.IModel
 
 interface IFirebaseDatabase {
-    fun getAll(onCompleteGet: (OnResult<List<IModel>>) -> Unit)
+    fun getAll(): OnResult<List<IModel>>
 
     //    fun getSingle(onCompleteGet: (OnResult<IModel>) -> Unit)
-    fun insert(objectToInsert: IModel, onCompleteRegister: (OnResult<String>) -> Unit)
+    fun insert(objectToInsert: IModel): OnResult<String>
     fun getDBReferenceByUID(): DatabaseReference
 }

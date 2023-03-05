@@ -5,7 +5,7 @@ import com.loperilla.compracasa.data.model.DataRegistration
 import com.loperilla.compracasa.register.dataSource.RegisterDataSource
 
 class RegisterRepository(private val dataSource: RegisterDataSource) {
-    fun doRegister(dataRegister: DataRegistration): OnResult<String> {
+    suspend fun doRegister(dataRegister: DataRegistration): OnResult<String> {
         // handle login
         return dataSource.doRegister(dataRegister)
     }

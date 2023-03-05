@@ -9,7 +9,7 @@ import com.loperilla.compracasa.login.datasource.LoginDataSource
  */
 
 class LoginRepository(private val dataSource: LoginDataSource) {
-    fun doLogin(username: String, password: String): OnResult<String> {
+    suspend fun doLogin(username: String, password: String): OnResult<String> {
         return dataSource.doLogin(username, password)
     }
 }

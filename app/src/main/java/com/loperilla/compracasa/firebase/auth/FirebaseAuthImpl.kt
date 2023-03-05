@@ -26,7 +26,7 @@ class FirebaseAuthImpl constructor(
         get() = auth.uid
 
 
-    override fun doTokenLoginFirebase(): OnResult<String> {
+    override suspend fun doTokenLoginFirebase(): OnResult<String> {
         var errorTask = ""
         runBlocking {
             auth.signInWithCustomToken(getDataStoreUserToken())
@@ -46,7 +46,7 @@ class FirebaseAuthImpl constructor(
     }
 
 
-    override fun doFirebaseLogin(email: String, password: String): OnResult<String> {
+    override suspend fun doFirebaseLogin(email: String, password: String): OnResult<String> {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener({ }) { task ->
                 Log.e(TAG, "${task.result}")
@@ -64,7 +64,7 @@ class FirebaseAuthImpl constructor(
         }
     }
 
-    override fun doFirebaseRegister(dataRegistration: DataRegistration): OnResult<String> {
+    override suspend fun doFirebaseRegister(dataRegistration: DataRegistration): OnResult<String> {
         var taskError = ""
         auth.createUserWithEmailAndPassword(dataRegistration.email, dataRegistration.password)
             .addOnCompleteListener { task ->

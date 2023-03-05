@@ -11,6 +11,10 @@ import com.loperilla.compracasa.firebase.database.ShoppingListRepository
 import com.loperilla.compracasa.login.datasource.LoginDataSource
 import com.loperilla.compracasa.login.repository.LoginRepository
 import com.loperilla.compracasa.login.viewmodel.LoginViewModel
+import com.loperilla.compracasa.main.dataSource.HomeDataSource
+import com.loperilla.compracasa.main.repository.HomeRepository
+import com.loperilla.compracasa.main.ui.HomeViewModel
+import com.loperilla.compracasa.main.useCase.GetShoppingListUseCase
 import com.loperilla.compracasa.register.dataSource.RegisterDataSource
 import com.loperilla.compracasa.register.repository.RegisterRepository
 import com.loperilla.compracasa.register.viewModel.RegisterViewModel
@@ -54,5 +58,23 @@ val registerModule = module {
 
     viewModel {
         RegisterViewModel(get())
+    }
+}
+
+val mainModule = module {
+    single {
+        HomeDataSource(get())
+    }
+
+    single {
+        HomeRepository(get())
+    }
+
+    single {
+        GetShoppingListUseCase(get())
+    }
+
+    viewModel {
+        HomeViewModel(get())
     }
 }

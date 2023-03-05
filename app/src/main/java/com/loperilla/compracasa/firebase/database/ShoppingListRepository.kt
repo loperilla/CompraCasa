@@ -1,5 +1,6 @@
 package com.loperilla.compracasa.firebase.database
 
+import android.util.Log
 import com.google.firebase.database.*
 import com.loperilla.compracasa.data.Constants.DATABASE.ITEMS
 import com.loperilla.compracasa.data.Constants.DATABASE.SHOPPINGLIST
@@ -20,7 +21,7 @@ class ShoppingListRepository constructor(
             getDataStoreUserUID()
         }
 
-    override fun getAll(onCompleteGet: (OnResult<List<IModel>>) -> Unit) {
+    override fun getAll(): OnResult<List<IModel>> {
         var returnList = mutableListOf<ShoppingListItem>()
         getDBReferenceByUID().child(ITEMS)
             .addListenerForSingleValueEvent(
@@ -33,30 +34,39 @@ class ShoppingListRepository constructor(
                                 returnList.add(shoppingListItem)
                             }
                         }
-                        onCompleteGet(OnResult.Success(returnList))
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-                        onCompleteGet(OnResult.Error(listOf()))
+                        Log.e(TAG, databaseError.message)
                     }
                 }
             )
+        return if (returnList.isEmpty()) {
+            OnResult.Error(listOf())
+        } else {
+            OnResult.Success(returnList)
+        }
     }
 
 //    override fun getSingle(onCompleteGet: (OnResult<IModel>) -> Unit) {
 //        TODO("Not yet implemented")
 //    }
 
-    override fun insert(objectToInsert: IModel, onCompleteRegister: (OnResult<String>) -> Unit) {
+    override fun insert(objectToInsert: IModel): OnResult<String> {
+        var errorMessage = ""
         val pushKey = getDBReferenceByUID().child(ITEMS).push().key
         getDBReferenceByUID().child(ITEMS).child(pushKey!!).setValue(
             objectToInsert
         ) { error, ref ->
             if (error != null) {
-                onCompleteRegister(OnResult.Error(error.message))
+                errorMessage = error.message
                 return@setValue
             }
-            onCompleteRegister(OnResult.Success(""))
+        }
+        return if (errorMessage.isEmpty()) {
+            OnResult.Success("")
+        } else {
+            OnResult.Error(errorMessage)
         }
     }
 
