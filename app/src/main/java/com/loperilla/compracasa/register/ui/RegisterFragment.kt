@@ -9,17 +9,18 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.loperilla.compracasa.data.model.DataRegistration
 import com.loperilla.compracasa.databinding.FragmentRegisterBinding
+import com.loperilla.compracasa.register.model.RegisterResult
 import com.loperilla.compracasa.register.viewModel.RegisterViewModel
-import com.loperilla.compracasa.register.viewModel.RegisterViewModelFactory
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: RegisterViewModel
+    private val viewModel by viewModels<RegisterViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +32,9 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            RegisterViewModelFactory()
-        )[RegisterViewModel::class.java]
-        val usernameEditText = binding.etRegisterEmail
+        val emailEditText = binding.etRegisterEmail
         val passwordEditText = binding.etRegisterPassword
+        val displayNameEditText = binding.etRegisterDisplayName
         val registerButton = binding.btnRegister
         val loadingProgressBar = binding.loading
 
@@ -47,26 +45,27 @@ class RegisterFragment : Fragment() {
                 }
                 registerButton.isEnabled = registerFormState.isDataValid
                 registerFormState.usernameError?.let {
-                    usernameEditText.error = getString(it)
+                    emailEditText.error = getString(it)
                 }
                 registerFormState.passwordError?.let {
                     passwordEditText.error = getString(it)
                 }
+                registerFormState.displayNameError?.let {
+                    displayNameEditText.error = getString(it)
+                }
             })
 
-        viewModel.registerResult.observe(viewLifecycleOwner,
-            Observer { registerResult ->
-                registerResult ?: return@Observer
-                loadingProgressBar.visibility = View.GONE
-                registerResult.error?.let {
-                    Toast.makeText(binding.root.context, "Algo falló", Toast.LENGTH_LONG).show()
-                }
-                registerResult.success?.let {
-                    findNavController().navigate(
-                        RegisterFragmentDirections.actionRegisterFragmentToHomeFragment(it.displayName)
-                    )
-                }
-            })
+        viewModel.registerResult.observe(viewLifecycleOwner) { registerResult ->
+            registerResult ?: return@observe
+            loadingProgressBar.visibility = View.GONE
+            if (registerResult == RegisterResult.SUCCESSFULLY) {
+                findNavController().navigate(
+                    RegisterFragmentDirections.actionRegisterFragmentToHomeFragment()
+                )
+                return@observe
+            }
+            Toast.makeText(binding.root.context, "Algo falló", Toast.LENGTH_LONG).show()
+        }
 
 
         val afterTextChangedListener = object : TextWatcher {
@@ -80,18 +79,23 @@ class RegisterFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 viewModel.registerFromDataChanged(
-                    usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString(),
+                    displayNameEditText.text.toString()
                 )
             }
         }
-        usernameEditText.addTextChangedListener(afterTextChangedListener)
+        emailEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.addTextChangedListener(afterTextChangedListener)
-        passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+        displayNameEditText.addTextChangedListener(afterTextChangedListener)
+        displayNameEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewModel.doRegister(
-                    usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    DataRegistration(
+                        emailEditText.text.toString(),
+                        passwordEditText.text.toString(),
+                        displayNameEditText.text.toString()
+                    )
                 )
             }
             false
@@ -100,15 +104,11 @@ class RegisterFragment : Fragment() {
         registerButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
             viewModel.doRegister(
-                usernameEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
-        }
-
-        registerButton.setOnClickListener {
-            viewModel.doRegister(
-                usernameEditText.text.toString(),
-                passwordEditText.text.toString()
+                DataRegistration(
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString(),
+                    displayNameEditText.text.toString()
+                )
             )
         }
     }

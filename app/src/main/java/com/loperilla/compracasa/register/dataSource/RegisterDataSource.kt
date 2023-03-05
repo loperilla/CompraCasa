@@ -1,15 +1,11 @@
 package com.loperilla.compracasa.register.dataSource
 
 import com.loperilla.compracasa.data.OnResult
-import com.loperilla.compracasa.data.model.LoggedInUser
-import java.io.IOException
+import com.loperilla.compracasa.data.model.DataRegistration
+import com.loperilla.compracasa.firebase.auth.IFirebaseAuth
 
-class RegisterDataSource {
-    fun doRegister(email: String, password: String): OnResult<LoggedInUser> {
-        return try {
-            MyFirebaseAuth.doFirebaseRegister(email, password)
-        } catch (e: Throwable) {
-            OnResult.Error<Any>(IOException("Error logging in", e))
-        }
+class RegisterDataSource(private val firebaseAuth: IFirebaseAuth) {
+    fun doRegister(dataRegistration: DataRegistration): OnResult<String> {
+        return firebaseAuth.doFirebaseRegister(dataRegistration)
     }
 }

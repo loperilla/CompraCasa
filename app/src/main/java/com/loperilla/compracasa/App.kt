@@ -3,6 +3,8 @@ package com.loperilla.compracasa
 import androidx.multidex.MultiDexApplication
 import com.google.firebase.FirebaseApp
 import com.loperilla.compracasa.di.appModule
+import com.loperilla.compracasa.di.loginModule
+import com.loperilla.compracasa.di.registerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -18,7 +20,7 @@ class App : MultiDexApplication() {
         startKoin {
             androidContext(this@App)
             androidLogger()
-            modules(appModule)
+            modules(appModule, loginModule, registerModule)
         }
     }
 }

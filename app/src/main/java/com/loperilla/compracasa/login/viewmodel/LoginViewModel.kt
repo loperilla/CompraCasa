@@ -1,15 +1,18 @@
 package com.loperilla.compracasa.login.viewmodel
 
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.loperilla.compracasa.R
 import com.loperilla.compracasa.data.OnResult
-import com.loperilla.compracasa.login.data.LoggedInUserView
+import com.loperilla.compracasa.data.Validators.isEmailValid
+import com.loperilla.compracasa.data.Validators.isPasswordValid
 import com.loperilla.compracasa.login.data.LoginFormState
 import com.loperilla.compracasa.login.data.LoginResult
 import com.loperilla.compracasa.login.repository.LoginRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -20,19 +23,20 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun doLoginApiCall(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.doLogin(username, password)
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = loginRepository.doLogin(username, password)
 
-        if (result is OnResult.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+            if (result is OnResult.Success) {
+                _loginResult.postValue(LoginResult.SUCCESSFULL)
+
+            } else {
+                _loginResult.postValue(LoginResult.FAIL)
+            }
         }
     }
 
     fun loginDataChanged(username: String, password: String) {
-        if (!isUserNameValid(username)) {
+        if (!isEmailValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
             return
         }
@@ -41,15 +45,5 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             return
         }
         _loginForm.value = LoginFormState(isDataValid = true)
-    }
-
-    // A placeholder username validation check
-    private fun isUserNameValid(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    // A placeholder password validation check
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
     }
 }

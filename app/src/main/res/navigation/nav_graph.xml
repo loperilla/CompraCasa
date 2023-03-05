@@ -32,9 +32,6 @@
         android:id="@+id/homeFragment"
         android:name="com.loperilla.compracasa.main.ui.HomeFragment"
         tools:layout="@layout/fragment_home">
-        <argument
-            android:name="displayName"
-            app:argType="string" />
         <action
             android:id="@+id/action_homeFragment_to_addShoppingListFragment"
             app:destination="@id/addShoppingListFragment" />

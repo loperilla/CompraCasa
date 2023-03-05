@@ -7,23 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
-import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.databinding.FragmentLoginBinding
-import com.loperilla.compracasa.login.data.LoggedInUserView
+import com.loperilla.compracasa.login.data.LoginResult
 import com.loperilla.compracasa.login.viewmodel.LoginViewModel
-import com.loperilla.compracasa.login.viewmodel.LoginViewModelFactory
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
-    private lateinit var loginViewModel: LoginViewModel
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val loginViewModel by viewModels<LoginViewModel>()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -37,22 +32,16 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel = ViewModelProvider(
-            this,
-            LoginViewModelFactory()
-        )[LoginViewModel::class.java]
-
-        loginViewModel.doLoginApiCall(
-            "aa@gmail.com", "12345678"
-        )
         val usernameEditText = binding.etLoginUsername
         val passwordEditText = binding.etLoginPassword
         val loginButton = binding.btnLogin
         val registerButton = binding.btnRegister
         val loadingProgressBar = binding.loading
+        val tvBadCredentials = binding.loginRequestFail
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner) { loginFormState ->
             loginButton.isEnabled = loginFormState.isDataValid
+            tvBadCredentials.isVisible = false
             loginFormState.usernameError?.let {
                 usernameEditText.error = getString(it)
             }
@@ -63,12 +52,13 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loginResult.observe(viewLifecycleOwner) { loginResult ->
             loadingProgressBar.visibility = View.GONE
-            loginResult.error?.let {
-                showLoginFailed(it)
+            if (loginResult == LoginResult.FAIL) {
+                showLoginFailed()
+                return@observe
             }
-            loginResult.success?.let {
-                updateUiWithUser(it)
-            }
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            )
         }
 
 
@@ -115,15 +105,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        findNavController().navigate(
-            LoginFragmentDirections.actionLoginFragmentToHomeFragment(model.displayName)
-        )
-    }
-
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
+    private fun showLoginFailed() {
+        binding.loginRequestFail.isVisible = true
     }
 
     override fun onDestroyView() {
