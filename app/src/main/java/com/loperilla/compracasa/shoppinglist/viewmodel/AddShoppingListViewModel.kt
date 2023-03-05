@@ -3,14 +3,18 @@ package com.loperilla.compracasa.shoppinglist.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.shoppinglist.data.InputsState
-import com.loperilla.compracasa.shoppinglist.data.PostShoppingList
 import com.loperilla.compracasa.shoppinglist.data.PostState
-import com.loperilla.compracasa.shoppinglist.repository.AddShoppingRepository
+import com.loperilla.compracasa.shoppinglist.usecase.AddShoppingUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class AddShoppingListViewModel(val repository: AddShoppingRepository) : ViewModel() {
+class AddShoppingListViewModel(
+    private val useCase: AddShoppingUseCase
+) : ViewModel() {
     private val _isValidForm = MutableLiveData<InputsState>()
     val isValidFormState: LiveData<InputsState> = _isValidForm
 
@@ -28,12 +32,16 @@ class AddShoppingListViewModel(val repository: AddShoppingRepository) : ViewMode
     }
 
     fun addShoppingList(shoppingListItem: ShoppingListItem) {
-        val postOnResult: OnResult<PostShoppingList> = repository.addShoppingList(shoppingListItem)
+        viewModelScope.launch(Dispatchers.IO) {
+            val postOnResult: OnResult<String> = useCase(shoppingListItem)
 
-        _postState.value = if (postOnResult is OnResult.Success) {
-            PostState.SUCCESS
-        } else {
-            PostState.FAIL
+            _postState.postValue(
+                if (postOnResult is OnResult.Success) {
+                    PostState.SUCCESS
+                } else {
+                    PostState.FAIL
+                }
+            )
         }
     }
 }

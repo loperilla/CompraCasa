@@ -3,6 +3,7 @@ package com.loperilla.compracasa.di
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.loperilla.compracasa.data.Extensions.mDataStore
+import com.loperilla.compracasa.data.datastore.DataStoreRepository
 import com.loperilla.compracasa.data.datastore.DataStoreRepositoryImpl
 import com.loperilla.compracasa.firebase.auth.FirebaseAuthImpl
 import com.loperilla.compracasa.firebase.auth.IFirebaseAuth
@@ -18,18 +19,22 @@ import com.loperilla.compracasa.main.useCase.GetShoppingListUseCase
 import com.loperilla.compracasa.register.dataSource.RegisterDataSource
 import com.loperilla.compracasa.register.repository.RegisterRepository
 import com.loperilla.compracasa.register.viewModel.RegisterViewModel
+import com.loperilla.compracasa.shoppinglist.datasource.AddShoppingDataSource
+import com.loperilla.compracasa.shoppinglist.repository.AddShoppingRepository
+import com.loperilla.compracasa.shoppinglist.usecase.AddShoppingUseCase
+import com.loperilla.compracasa.shoppinglist.viewmodel.AddShoppingListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    single {
+    single<DataStoreRepository> {
         DataStoreRepositoryImpl(androidContext().mDataStore)
     }
-    single<IFirebaseAuth> {
+    factory<IFirebaseAuth> {
         FirebaseAuthImpl(get())
     }
-    single<IFirebaseDatabase> {
+    factory<IFirebaseDatabase> {
         val dbInstance = Firebase.database
         ShoppingListRepository(dbInstance, get())
     }
@@ -76,5 +81,23 @@ val mainModule = module {
 
     viewModel {
         HomeViewModel(get())
+    }
+}
+
+val addShoppingListModule = module {
+    single {
+        AddShoppingDataSource(get())
+    }
+
+    single {
+        AddShoppingRepository(get())
+    }
+
+    single {
+        AddShoppingUseCase(get())
+    }
+
+    viewModel {
+        AddShoppingListViewModel(get())
     }
 }

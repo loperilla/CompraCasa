@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.databinding.FragmentLoginBinding
 import com.loperilla.compracasa.login.data.LoginResult
 import com.loperilla.compracasa.login.viewmodel.LoginViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
-    private val loginViewModel by viewModels<LoginViewModel>()
+    private val loginViewModel: LoginViewModel by viewModel()
     private val binding get() = _binding!!
 
     override fun onCreateView(

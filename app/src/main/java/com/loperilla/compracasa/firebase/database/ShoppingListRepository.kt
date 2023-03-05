@@ -23,6 +23,7 @@ class ShoppingListRepository constructor(
 
     override fun getAll(): OnResult<List<IModel>> {
         var returnList = mutableListOf<ShoppingListItem>()
+        Log.e(TAG, "${getDBReferenceByUID()}")
         getDBReferenceByUID().child(ITEMS)
             .addListenerForSingleValueEvent(
                 object : ValueEventListener {

@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.databinding.FragmentHomeBinding
 import com.loperilla.compracasa.main.adapter.ShoppingListAdapter
 import com.loperilla.compracasa.main.data.ShoppingState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModel()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -27,8 +27,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-
         viewModel.shoppingListState.observe(viewLifecycleOwner) { state ->
             if (state == ShoppingState.LOADING) {
                 showLoadingView()
@@ -51,6 +49,7 @@ class HomeFragment : Fragment() {
                 HomeFragmentDirections.actionHomeFragmentToAddShoppingListFragment()
             )
         }
+        viewModel.getUserShoppingList()
     }
 
     private fun showLoadingView() {
@@ -86,11 +85,6 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             adapter = shoppingListAdapter
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getUserShoppingList()
     }
 
     override fun onDestroyView() {

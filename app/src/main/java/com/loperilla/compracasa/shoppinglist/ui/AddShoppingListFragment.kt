@@ -9,19 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.databinding.FragmentAddShoppingListBinding
 import com.loperilla.compracasa.shoppinglist.data.InputsState
 import com.loperilla.compracasa.shoppinglist.data.PostState
 import com.loperilla.compracasa.shoppinglist.viewmodel.AddShoppingListViewModel
-import com.loperilla.compracasa.shoppinglist.viewmodel.AddShoppingListViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddShoppingListFragment : Fragment() {
     private var _binding: FragmentAddShoppingListBinding? = null
     private lateinit var viewRoot: View
     private val binding get() = _binding!!
-    private lateinit var viewModel: AddShoppingListViewModel
+    private val viewModel: AddShoppingListViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +33,6 @@ class AddShoppingListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            AddShoppingListViewModelFactory()
-        )[AddShoppingListViewModel::class.java]
 
         viewModel.isValidFormState.observe(viewLifecycleOwner) { inputState ->
             Log.e("isValid", inputState.name)

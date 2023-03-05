@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.data.model.DataRegistration
 import com.loperilla.compracasa.databinding.FragmentRegisterBinding
 import com.loperilla.compracasa.register.model.RegisterResult
 import com.loperilla.compracasa.register.viewModel.RegisterViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<RegisterViewModel>()
+    private val viewModel: RegisterViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

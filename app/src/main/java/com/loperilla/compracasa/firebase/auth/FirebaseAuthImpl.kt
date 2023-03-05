@@ -76,6 +76,7 @@ class FirebaseAuthImpl constructor(
                             .build()
                     )
                 } else {
+                    task.exception?.stackTraceToString()?.let { Log.e(TAG, it) }
                     taskError = task.exception?.stackTraceToString() ?: "Hubo un error"
                 }
             }
