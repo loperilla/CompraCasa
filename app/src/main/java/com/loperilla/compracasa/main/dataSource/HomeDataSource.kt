@@ -1,7 +1,7 @@
 package com.loperilla.compracasa.main.dataSource
 
-import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.IModel
+import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.firebase.database.IFirebaseDatabase
 
 class HomeDataSource(

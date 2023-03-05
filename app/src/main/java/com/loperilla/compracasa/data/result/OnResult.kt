@@ -1,4 +1,4 @@
-package com.loperilla.compracasa.data
+package com.loperilla.compracasa.data.result
 
 /**
  * A generic class that holds a value with its loading status.

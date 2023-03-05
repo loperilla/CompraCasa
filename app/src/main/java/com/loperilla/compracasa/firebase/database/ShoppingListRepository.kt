@@ -5,43 +5,44 @@ import com.google.firebase.database.*
 import com.loperilla.compracasa.data.Constants.DATABASE.ITEMS
 import com.loperilla.compracasa.data.Constants.DATABASE.SHOPPINGLIST
 import com.loperilla.compracasa.data.Constants.PREFERENCES.UUID_PREFERENCE
-import com.loperilla.compracasa.data.OnResult
-import com.loperilla.compracasa.data.datastore.DataStoreRepository
+import com.loperilla.compracasa.data.datastore.IDataStore
 import com.loperilla.compracasa.data.model.IModel
 import com.loperilla.compracasa.data.model.ShoppingListItem
+import com.loperilla.compracasa.data.result.OnResult
 import kotlinx.coroutines.runBlocking
 
 class ShoppingListRepository constructor(
     private val dbInstance: FirebaseDatabase,
-    private val dataStore: DataStoreRepository
+    private val dataStore: IDataStore
 ) : IFirebaseDatabase {
     private val TAG = ShoppingListRepository::class.java.simpleName
-    private val UID: String
-        get() = runBlocking {
-            getDataStoreUserUID()
-        }
 
     override fun getAll(): OnResult<List<IModel>> {
         var returnList = mutableListOf<ShoppingListItem>()
-        Log.e(TAG, "${getDBReferenceByUID()}")
-        getDBReferenceByUID().child(ITEMS)
-            .addListenerForSingleValueEvent(
-                object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        for (childSnapshot in dataSnapshot.children) {
-                            val shoppingListItem =
-                                childSnapshot.getValue(ShoppingListItem::class.java)
-                            if (shoppingListItem != null) {
-                                returnList.add(shoppingListItem)
+        runBlocking {
+            dataStore.getString(UUID_PREFERENCE).collect { uid ->
+                getDBModelReference().child(uid).child(ITEMS)
+                    .addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (childSnapshot in dataSnapshot.children) {
+                                    val shoppingListItem =
+                                        childSnapshot.getValue(ShoppingListItem::class.java)
+                                    if (shoppingListItem != null) {
+                                        returnList.add(shoppingListItem)
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                Log.e(TAG, databaseError.message)
                             }
                         }
-                    }
+                    )
+            }
+        }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        Log.e(TAG, databaseError.message)
-                    }
-                }
-            )
+
         return if (returnList.isEmpty()) {
             OnResult.Error(listOf())
         } else {
@@ -55,13 +56,17 @@ class ShoppingListRepository constructor(
 
     override fun insert(objectToInsert: IModel): OnResult<String> {
         var errorMessage = ""
-        val pushKey = getDBReferenceByUID().child(ITEMS).push().key
-        getDBReferenceByUID().child(ITEMS).child(pushKey!!).setValue(
-            objectToInsert
-        ) { error, ref ->
-            if (error != null) {
-                errorMessage = error.message
-                return@setValue
+        runBlocking {
+            dataStore.getString(UUID_PREFERENCE).collect { uid ->
+                val pushKey = getDBModelReference().child(uid).child(ITEMS).push().key
+                getDBModelReference().child(ITEMS).child(uid).child(pushKey!!).setValue(
+                    objectToInsert
+                ) { error, ref ->
+                    if (error != null) {
+                        errorMessage = error.message
+                        return@setValue
+                    }
+                }
             }
         }
         return if (errorMessage.isEmpty()) {
@@ -71,15 +76,7 @@ class ShoppingListRepository constructor(
         }
     }
 
-    override fun getDBReferenceByUID(): DatabaseReference {
-        return dbInstance.reference.child(SHOPPINGLIST).child(UID)
-    }
-
-    private suspend fun getDataStoreUserUID(): String {
-        var token = ""
-        dataStore.getString(UUID_PREFERENCE).collect {
-            token = it
-        }
-        return token
+    override fun getDBModelReference(): DatabaseReference {
+        return dbInstance.reference.child(SHOPPINGLIST)
     }
 }

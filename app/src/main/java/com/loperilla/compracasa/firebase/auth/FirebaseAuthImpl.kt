@@ -1,6 +1,5 @@
 package com.loperilla.compracasa.firebase.auth
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -8,14 +7,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.loperilla.compracasa.data.Constants.PREFERENCES.KEY
 import com.loperilla.compracasa.data.Constants.PREFERENCES.UUID_PREFERENCE
-import com.loperilla.compracasa.data.OnResult
-import com.loperilla.compracasa.data.datastore.DataStoreRepository
+import com.loperilla.compracasa.data.datastore.IDataStore
 import com.loperilla.compracasa.data.model.DataRegistration
+import com.loperilla.compracasa.data.result.ResultCallback
 import kotlinx.coroutines.runBlocking
 
-
 class FirebaseAuthImpl constructor(
-    private val dataStore: DataStoreRepository
+    private val dataStore: IDataStore
 ) : IFirebaseAuth {
     private val TAG = FirebaseAuthImpl::class.java.simpleName
     private val auth: FirebaseAuth
@@ -26,46 +24,47 @@ class FirebaseAuthImpl constructor(
         get() = auth.uid
 
 
-    override suspend fun doTokenLoginFirebase(): OnResult<String> {
-        var errorTask = ""
-        runBlocking {
-            auth.signInWithCustomToken(getDataStoreUserToken())
+    override suspend fun doTokenLoginFirebase(callback: ResultCallback) = runBlocking {
+        dataStore.getString(KEY).collect { token ->
+            if (token.isEmpty()) {
+                callback.onFailureResult("Empty token")
+                return@collect
+            }
+            auth.signInWithCustomToken(token)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         currentAuthUser = auth.currentUser
+                        callback.onSuccessfulResult()
                     } else {
-                        errorTask = task.exception?.stackTraceToString() ?: "Hubo un error"
+                        callback.onFailureResult(
+                            task.exception?.stackTraceToString() ?: "Hubo un error"
+                        )
                     }
                 }
         }
-        return if (errorTask.isEmpty()) {
-            OnResult.Success("")
-        } else {
-            OnResult.Error(errorTask)
-        }
     }
 
-
-    override suspend fun doFirebaseLogin(email: String, password: String): OnResult<String> {
+    override suspend fun doFirebaseLogin(
+        email: String,
+        password: String,
+        callback: ResultCallback
+    ) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener({ }) { task ->
-                Log.e(TAG, "${task.result}")
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     this.currentAuthUser = auth.currentUser
-                    saveAuthToken()
+                    saveAuthToken(callback)
                 }
             }
-        return if (auth.currentUser == null) {
-            OnResult.Error("Error loginIn")
-        } else {
-            OnResult.Success(
-                ""
-            )
-        }
+            .addOnFailureListener {
+                callback.onFailureResult(it.message ?: "Hubo un error")
+            }
     }
 
-    override suspend fun doFirebaseRegister(dataRegistration: DataRegistration): OnResult<String> {
-        var taskError = ""
+    override suspend fun doFirebaseRegister(
+        dataRegistration: DataRegistration,
+        callback: ResultCallback
+    ) {
         auth.createUserWithEmailAndPassword(dataRegistration.email, dataRegistration.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -75,37 +74,29 @@ class FirebaseAuthImpl constructor(
                             .setDisplayName(dataRegistration.displayName)
                             .build()
                     )
+                    callback.onSuccessfulResult()
                 } else {
-                    task.exception?.stackTraceToString()?.let { Log.e(TAG, it) }
-                    taskError = task.exception?.stackTraceToString() ?: "Hubo un error"
+                    task.exception?.printStackTrace()
+                    callback.onFailureResult(
+                        task.exception?.stackTraceToString() ?: "Hubo un error"
+                    )
                 }
             }
-        return if (taskError.isNotEmpty()) {
-            OnResult.Success("")
-        } else {
-            OnResult.Error(taskError)
-        }
     }
 
-    private fun saveAuthToken() = runBlocking {
-        var resultToken = ""
+    private fun saveAuthToken(callback: ResultCallback) = runBlocking {
         currentAuthUser!!.getIdToken(true)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful && !task.result.token.isNullOrEmpty()) {
-                    resultToken = task.result.token!!
+                    dataStore.insertString(KEY, task.result.token!!)
+                    callback.onSuccessfulResult()
                 }
+                callback.onFailureResult("Hubo un error")
             }
-        if (resultToken.isNotEmpty()) {
-            dataStore.insertString(KEY, resultToken)
-        }
-        UID?.let { dataStore.insertString(UUID_PREFERENCE, it) }
-    }
+            .addOnFailureListener {
+                callback.onFailureResult(it.message ?: "Hubo un error")
+            }
 
-    private suspend fun getDataStoreUserToken(): String {
-        var token = ""
-        dataStore.getString(KEY).collect {
-            token = it
-        }
-        return token
+        UID?.let { dataStore.insertString(UUID_PREFERENCE, it) }
     }
 }

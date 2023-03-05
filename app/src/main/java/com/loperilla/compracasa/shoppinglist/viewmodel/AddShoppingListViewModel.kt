@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.ShoppingListItem
+import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.shoppinglist.data.InputsState
 import com.loperilla.compracasa.shoppinglist.data.PostState
 import com.loperilla.compracasa.shoppinglist.usecase.AddShoppingUseCase

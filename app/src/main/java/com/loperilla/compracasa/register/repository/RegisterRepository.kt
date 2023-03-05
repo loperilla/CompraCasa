@@ -1,7 +1,7 @@
 package com.loperilla.compracasa.register.repository
 
-import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.model.DataRegistration
+import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.register.dataSource.RegisterDataSource
 
 class RegisterRepository(private val dataSource: RegisterDataSource) {

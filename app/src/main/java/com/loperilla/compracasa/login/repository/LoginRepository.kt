@@ -1,6 +1,6 @@
 package com.loperilla.compracasa.login.repository
 
-import com.loperilla.compracasa.data.OnResult
+import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.login.datasource.LoginDataSource
 
 /**

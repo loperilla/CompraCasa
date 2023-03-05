@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.loperilla.compracasa.R
-import com.loperilla.compracasa.data.OnResult
 import com.loperilla.compracasa.data.Validators.isEmailValid
 import com.loperilla.compracasa.data.Validators.isPasswordValid
+import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.login.data.LoginFormState
 import com.loperilla.compracasa.login.data.LoginResult
 import com.loperilla.compracasa.login.repository.LoginRepository
