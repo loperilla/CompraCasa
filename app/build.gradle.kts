@@ -21,10 +21,10 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
 
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

@@ -5,7 +5,7 @@ import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.shoppinglist.datasource.AddShoppingDataSource
 
 class AddShoppingRepository(private val dataSource: AddShoppingDataSource) {
-    fun addShoppingList(shoppingListItem: ShoppingListItem): OnResult<String> {
+    suspend fun addShoppingList(shoppingListItem: ShoppingListItem): OnResult<String> {
         return dataSource.addShoppingList(shoppingListItem)
     }
 

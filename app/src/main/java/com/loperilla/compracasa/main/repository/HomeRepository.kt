@@ -6,6 +6,11 @@ import com.loperilla.compracasa.main.dataSource.HomeDataSource
 
 class HomeRepository(private val dataSource: HomeDataSource) {
     suspend fun getUserShoppingList(): OnResult<List<IModel>> {
-        return dataSource.getUserShoppingList()
+        val dsList = dataSource.getUserShoppingList()
+        return if (dsList.isEmpty()) {
+            OnResult.Error(dsList)
+        } else {
+            OnResult.Success(dsList)
+        }
     }
 }

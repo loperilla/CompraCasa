@@ -1,13 +1,16 @@
 package com.loperilla.compracasa.main.dataSource
 
 import com.loperilla.compracasa.data.model.IModel
-import com.loperilla.compracasa.data.result.OnResult
 import com.loperilla.compracasa.firebase.database.IFirebaseDatabase
 
 class HomeDataSource(
     private val firebaseDatabase: IFirebaseDatabase
 ) {
-    suspend fun getUserShoppingList(): OnResult<List<IModel>> {
-        return firebaseDatabase.getAll()
+    suspend fun getUserShoppingList(): List<IModel> = try {
+        firebaseDatabase.getAll()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+        listOf<IModel>()
     }
+
 }

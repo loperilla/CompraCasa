@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
             null,
             fallbackOnNavigateUpListener = ::onSupportNavigateUp
         )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }

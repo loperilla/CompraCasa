@@ -41,5 +41,11 @@
         android:id="@+id/addShoppingListFragment"
         android:name="com.loperilla.compracasa.shoppinglist.ui.AddShoppingListFragment"
         android:label="fragment_add_shopping_list"
-        tools:layout="@layout/fragment_add_shopping_list" />
+        tools:layout="@layout/fragment_add_shopping_list">
+        <action
+            android:id="@+id/action_addShoppingListFragment_pop_including_homeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

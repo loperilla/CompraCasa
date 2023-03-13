@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.loperilla.compracasa.data.model.ShoppingListItem
 import com.loperilla.compracasa.databinding.FragmentAddShoppingListBinding
 import com.loperilla.compracasa.shoppinglist.data.InputsState
@@ -42,6 +43,7 @@ class AddShoppingListFragment : Fragment() {
         viewModel.isPostSuccess.observe(viewLifecycleOwner) {
             if (it == PostState.SUCCESS) {
                 Toast.makeText(viewRoot.context, "Se agregó con éxito", Toast.LENGTH_LONG).show()
+                findNavController().navigateUp()
             }
 
             if (it == PostState.FAIL) {

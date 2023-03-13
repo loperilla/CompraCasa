@@ -13,6 +13,10 @@ class IDataStoreImpl constructor(
     private val dataStore: DataStore<Preferences>
 ) : IDataStore {
     private val TAG = IDataStoreImpl::class.java.simpleName
+    override fun getAll(): Flow<Preferences> {
+        return dataStore.data
+    }
+
     override fun getString(key: String): Flow<String> {
         return dataStore.data.map { pref ->
             pref[stringPreferencesKey(key)].orEmpty()
