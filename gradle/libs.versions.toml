@@ -29,6 +29,7 @@ navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", 
 navigation-iu = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 safe-args-gradle = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 safetynet = "com.google.firebase:firebase-appcheck-safetynet:16.1.2"
+splash-screen = "androidx.core:core-splashscreen:1.0.0"
 
 [bundles]
 firebase = [

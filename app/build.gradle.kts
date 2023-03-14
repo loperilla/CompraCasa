@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.annotations)
     implementation(libs.koin)
     implementation(libs.datastore)
+    implementation(libs.splash.screen)
     implementation(libs.bundles.lifecycle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
